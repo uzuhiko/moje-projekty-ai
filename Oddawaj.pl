@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oddawaj.pl — Odzyskaj Swoje Pieniądze w 30 Sekund</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #07090e; }
+        .glass-card { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glow-emerald { box-shadow: 0 0 50px -12px rgba(16, 185, 129, 0.35); }
+    </style>
+</head>
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
+
+    <!-- Top Navigation -->
+    <header class="w-full border-b border-white/5 py-5 px-6 max-w-6xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+            <span class="text-2xl font-extrabold tracking-tight text-white">Oddawaj<span class="text-emerald-400">.pl</span></span>
+        </div>
+        <div class="text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Automatyzacja Prawna AI
+        </div>
+    </header>
+
+    <!-- Hero Content -->
+    <main class="max-w-3xl mx-auto px-6 py-16 text-center flex-grow flex flex-col justify-center items-center">
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-4 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            Bez prawników • Bez formalności • W 30 sekund
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+            Należne Ci pieniądze. <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Znowu w Twojej kieszeni.</span>
+        </h1>
+        <p class="text-slate-400 text-base md:text-lg mb-10 max-w-xl font-medium leading-relaxed">
+            Spóźniony pociąg, opóźniony lot, nieuznana reklamacja lub problem z przesyłką? Wklej opis sprawy, a nasz system przygotuje oficjalne pismo prawne.
+        </p>
+
+        <!-- Main Form Card -->
+        <div class="w-full glass-card rounded-3xl p-6 md:p-8 text-left glow-emerald mb-8 relative overflow-hidden">
+            <label class="block text-sm font-semibold mb-3 text-slate-200 flex justify-between">
+                <span>Opisz swoją sytuację</span>
+                <span class="text-xs text-slate-500">Wystarczy kilka zdań</span>
+            </label>
+            <textarea id="userInput" rows="4" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-4 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all text-sm mb-5 resize-none" placeholder="np. Pociąg PKP Intercity z Warszawy do Gdańska opóźnił się o 85 minut. Bilet kosztował 98 zł."></textarea>
+            
+            <button onclick="generateDraft()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg shadow-emerald-500/25 text-center text-sm md:text-base">
+                Wygeneruj Pismo Reklamacyjne (9,99 zł)
+            </button>
+        </div>
+
+        <!-- Dynamic Output Box -->
+        <div id="resultBox" class="hidden w-full glass-card rounded-3xl p-6 text-left border-emerald-500/30">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Gotowe do wysłania
+                </span>
+                <span class="text-slate-400 text-xs font-semibold">Opłata jednorazowa: 9,99 zł</span>
+            </div>
+            <pre id="outputContent" class="whitespace-pre-wrap text-slate-300 text-xs md:text-sm bg-slate-950/90 p-5 rounded-xl border border-white/5 mb-5 font-mono leading-relaxed"></pre>
+            <button class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 rounded-xl transition text-sm">
+                Pobierz Pełny Dokument PDF (BLIK)
+            </button>
+        </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="border-t border-white/5 py-6 text-center text-xs text-slate-600">
+        &copy; 2026 Oddawaj.pl. Błyskawiczne generowanie pism konsumenckich.
+    </footer>
+
+    <script>
+        function generateDraft() {
+            const input = document.getElementById('userInput').value;
+            if(!input.trim()) { alert("Wpisz krótkie podsumowanie problemu!"); return; }
+            document.getElementById('resultBox').classList.remove('hidden');
+            document.getElementById('outputContent').innerText = 
+                "WEZWANIE DO ZAPŁATY / REKLAMACJA FORMALNA\n\n" +
+                "Niniejszym wzywam do zwrotu kwoty należnej z tytułu nienależytego wykonania usługi...\n\n" +
+                "[PEŁNY DOKUMENT Z PODSTAWĄ PRAWNĄ ZOSTANIE ODBLOKOWANY PO OPŁACENIU 9,99 ZŁ]";
+        }
+    </script>
+</body>
+</html>
