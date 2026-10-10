@@ -72,16 +72,17 @@
 
     <script>
         function generateDraft() {
-            const input = document.getElementById('userInput').value;
-            if(!input.trim()) { alert("Wpisz krótkie podsumowanie problemu!"); return; }
-            document.getElementById('resultBox').classList.remove('hidden');
-            document.getElementById('outputContent').innerText = 
-                "WEZWANIE DO ZAPŁATY / REKLAMACJA FORMALNA\n\n" +
-                "Niniejszym wzywam do zwrotu kwoty należnej z tytułu nienależytego wykonania usługi...\n\n" +
-                "[PEŁNY DOKUMENT Z PODSTAWĄ PRAWNĄ ZOSTANIE ODBLOKOWANY PO OPŁACENIU 9,99 ZŁ]"
-             // Przekierowanie do linku:
-  [https://buy.stripe.com/5kQ5kw1H1fyeZadnL6c003](https://buy.stripe.com/5kQ5kw1H1fyeZadnL6c003)
-        }
+        const input = document.getElementById('userInput').value;
+        if(!input.trim()) { alert("Wpisz krótkie podsumowanie problemu!"); return; }
+        document.getElementById('resultBox').classList.remove('hidden');
+        document.getElementById('outputContent').innerText = 
+            "WEZWANIE DO ZAPŁATY / REKLAMACJA FORMALNA\n\n" +
+            "Niniejszym wzywam do zwrotu kwoty należnej z tytułu nienależytego wykonania usługi...\n\n" +
+            "[PEŁNY DOKUMENT Z PODSTAWĄ PRAWNĄ ZOSTANIE ODBLOKOWANY PO OPŁACENIU 9,99 ZŁ]";
+        
+        // Przekierowanie do linku płatności Stripe:
+        window.location.href = "https://buy.stripe.com/5kQ5kw1H1fyeZadnL6c003";
+    }
     </script>
 </body>
 </html>
