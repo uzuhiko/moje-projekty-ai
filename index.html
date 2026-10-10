@@ -59,7 +59,7 @@
                 <span class="text-slate-400 text-xs font-semibold">Opłata jednorazowa: 9,99 zł</span>
             </div>
             <pre id="outputContent" class="whitespace-pre-wrap text-slate-300 text-xs md:text-sm bg-slate-950/90 p-5 rounded-xl border border-white/5 mb-5 font-mono leading-relaxed"></pre>
-            <button class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 rounded-xl transition text-sm">
+            <button onclick="redirectToCheckout()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 rounded-xl transition text-sm">
                 Pobierz Pełny Dokument PDF (BLIK)
             </button>
         </div>
@@ -72,17 +72,21 @@
 
     <script>
         function generateDraft() {
-        const input = document.getElementById('userInput').value;
-        if(!input.trim()) { alert("Wpisz krótkie podsumowanie problemu!"); return; }
-        document.getElementById('resultBox').classList.remove('hidden');
-        document.getElementById('outputContent').innerText = 
-            "WEZWANIE DO ZAPŁATY / REKLAMACJA FORMALNA\n\n" +
-            "Niniejszym wzywam do zwrotu kwoty należnej z tytułu nienależytego wykonania usługi...\n\n" +
-            "[PEŁNY DOKUMENT Z PODSTAWĄ PRAWNĄ ZOSTANIE ODBLOKOWANY PO OPŁACENIU 9,99 ZŁ]";
-        
-        // Przekierowanie do linku płatności Stripe:
-        window.location.href = "https://buy.stripe.com/5kQ5kw1H1fYeZadnL6c003"
-    }
+            const input = document.getElementById('userInput').value;
+            if(!input.trim()) { 
+                alert("Wpisz krótkie podsumowanie problemu!"); 
+                return; 
+            }
+            document.getElementById('resultBox').classList.remove('hidden');
+            document.getElementById('outputContent').innerText = 
+                "WEZWANIE DO ZAPŁATY / REKLAMACJA FORMALNA\n\n" +
+                "Niniejszym wzywam do zwrotu kwoty należnej z tytułu nienależytego wykonania usługi...\n\n" +
+                "[PEŁNY DOKUMENT Z PODSTAWĄ PRAWNĄ ZOSTANIE ODBLOKOWANY PO OPŁACENIU 9,99 ZŁ]";
+        }
+
+        function redirectToCheckout() {
+            window.location.href = "https://buy.stripe.com/5kQ5kw1H1fYeZadnL6c003";
+        }
     </script>
 </body>
 </html>
