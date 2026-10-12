@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="pl">
 <html lang="pl" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -10,21 +11,32 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
+<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-center p-6">
+    <div class="max-w-3xl w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-xl font-bold">Twój Dokument Prawny</h1>
+            <span id="statusBadge" class="text-xs font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">Generowanie dokumentu...</span>
 <body class="text-slate-100 min-h-screen flex flex-col justify-between p-6 bg-slate-950">
 
     <div class="max-w-2xl mx-auto w-full text-center my-auto">
         <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
         </div>
-        
-        <h1 class="text-3xl font-bold mb-2 text-white">Płatność Przyjęta!</h1>
-        <p class="text-slate-400 mb-8">Prawnik AI generuje Twoje spersonalizowane pismo na podstawie potwierdzonej płatności...</p>
 
+        <div id="legalDoc" class="bg-slate-950 p-6 rounded-xl border border-slate-800 text-slate-300 whitespace-pre-wrap font-mono text-sm min-h-[350px] max-h-[500px] overflow-y-auto">
+            Trwa pisanie spersonalizowanego pisma procesowego/reklamacyjnego na podstawie Twojego zgłoszenia...
+        </div>
+        <h1 class="text-3xl font-bold mb-2 text-white">Płatność Przyjęta!</h1>
+        <p class="text-slate-400 mb-8">Prawnik AI przygotowuje Twoje spersonalizowane pismo...</p>
+
+        <button onclick="navigator.clipboard.writeText(document.getElementById('legalDoc').innerText); alert('Pismo zostało skopiowane do schowka!');" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-emerald-900/20">
+            Kopiuj pismo do schowka
+        </button>
         <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl text-left relative overflow-hidden">
             <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
                 <span id="status-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
                     <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    Weryfikacja płatności i generowanie...
+                    Generowanie dokumentu...
                 </span>
                 <button id="copy-btn" onclick="copyToClipboard()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition hidden flex items-center gap-1.5">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
@@ -32,40 +44,45 @@
                 </button>
             </div>
 
-            <pre id="document-output" class="whitespace-pre-wrap text-sm font-mono text-slate-300 leading-relaxed min-h-[200px]">Trwa bezpieczna weryfikacja transakcji BLIK w systemie Stripe oraz pisanie pisma przez AI...</pre>
+            <pre id="document-output" class="whitespace-pre-wrap text-sm font-mono text-slate-300 leading-relaxed min-h-[200px]">Trwa pisanie pisma procesowego/reklamacyjnego na podstawie Twojego zgłoszenia...</pre>
         </div>
     </div>
 
     <script>
+        window.addEventListener('DOMContentLoaded', async () => {
+            const docElement = document.getElementById('legalDoc');
+            const badge = document.getElementById('statusBadge');
+            
+            // Pobieramy problem wpisany przez użytkownika na stronie głównej
+            const userProblem = localStorage.getItem('oddawaj_user_problem') || 'Problem z reklamacją / opóźnieniem usługi lub towaru';
         async function generateDocument() {
-            // 1. Pobieramy session_id z paska adresu (parametr przekazywany przez Stripe)
-            const urlParams = new URLSearchParams(window.location.search);
-            const session_id = urlParams.get('session_id');
-
-            // 2. Pobieramy prompt z pamięci przeglądarki
-            const prompt = localStorage.getItem('oddawaj_case') || sessionStorage.getItem('oddawaj_case') || 'Przykładowa reklamacja konsumencka.';
-
+            const prompt = localStorage.getItem('legalPrompt') || 'Brak opisu sprawy.';
             const outputEl = document.getElementById('document-output');
             const badgeEl = document.getElementById('status-badge');
             const copyBtn = document.getElementById('copy-btn');
 
-            if (!session_id) {
-                outputEl.textContent = "Błąd: Brak identyfikatora płatności (session_id). Upewnij się, że nastąpiło prawidłowe przekierowanie po opłaceniu zamówienia.";
-                badgeEl.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20';
-                badgeEl.innerHTML = 'Błąd Płatności';
-                return;
-            }
-
             try {
+                // Wysyłamy żądanie do OpenAI przez nasz backend na Vercelu
                 const response = await fetch('/api/generate', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt, session_id })
+                    body: JSON.stringify({ prompt: userProblem })
+                    body: JSON.stringify({ prompt })
                 });
+                
+                const data = await response.json();
+                console.log('Odpowiedź z AI:', data);
 
+                // Obsługujemy różne warianty kluczy zwracanych przez backend
+                const resultText = data.text || data.document || data.choices?.[0]?.message?.content;
                 const data = await response.json();
 
+                if (resultText) {
+                    docElement.innerText = resultText;
+                    badge.innerText = "Dokument Gotowy";
+                    badge.className = "text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20";
                 if (response.ok) {
+                    // Obsługuje zarówno klucz 'document', jak i 'text'
                     const docText = data.document || data.text || 'Brak treści pisma.';
                     outputEl.textContent = docText;
                     
@@ -73,13 +90,19 @@
                     badgeEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Gotowe';
                     copyBtn.classList.remove('hidden');
                 } else {
+                    docElement.innerText = "Otrzymano odpowiedź z serwera, ale format jest nieznany:\n\n" + JSON.stringify(data, null, 2);
                     throw new Error(data.error || 'Wystąpił błąd podczas generowania pisma.');
                 }
             } catch (err) {
+                console.error(err);
+                docElement.innerText = "Wystąpił błąd podczas generowania pisma: " + err.message;
+                badge.innerText = "Błąd";
+                badge.className = "text-xs font-semibold text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20";
                 outputEl.textContent = 'Wystąpił błąd: ' + err.message;
                 badgeEl.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20';
                 badgeEl.innerHTML = 'Błąd';
             }
+        });
         }
 
         function copyToClipboard() {
