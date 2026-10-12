@@ -40,9 +40,9 @@ export default async function handler(req, res) {
         }
 
         const text = data.choices?.[0]?.message?.content || 'Brak treści.';
-        return.status(200).json({ text });
+        return res.status(200).json({ text });
 
     } catch (err) {
-        return.status(500).json({ error: 'Błąd serwera: ' + err.message });
+        return res.status(500).json({ error: 'Błąd serwera: ' + err.message });
     }
 }
