@@ -71,47 +71,6 @@
     </footer>
 
     <script>
-        window.addEventListener('DOMContentLoaded', async () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('success') === 'true') {
-                const resultBox = document.getElementById('resultBox');
-                const outputContent = document.getElementById('outputContent');
-                const statusTitle = document.getElementById('boxStatusTitle');
-                const priceLabel = document.getElementById('boxPriceLabel');
-                const actionButton = document.getElementById('actionButton');
-
-                resultBox.classList.remove('hidden');
-                statusTitle.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Płatność udana — Sztuczna Inteligencja generuje pełny dokument...';
-                priceLabel.innerText = 'Status: Opłacone ✓';
-                outputContent.innerText = "Trwa łączenie z modelem AI i generowanie oficjalnego pisma na podstawie Twoich danych...\nProszę czekać kilkanaście sekund.";
-                actionButton.style.display = "none";
-
-                const savedProblem = localStorage.getItem('oddawaj_user_problem') || "Brak podanego opisu sprawy.";
-
-                try {
-                    const response = await fetch('/api/generate', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: savedProblem })
-                    });
-
-                    const data = await response.json();
-
-                    if (data.document) {
-                        outputContent.innerText = data.document;
-                        statusTitle.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Gotowe do pobrania i wysłania';
-                        actionButton.style.display = "block";
-                        actionButton.innerText = "Pobierz / Wydrukuj Dokument PDF";
-                        actionButton.onclick = function() { window.print(); };
-                    } else {
-                        outputContent.innerText = "Wystąpił błąd podczas generowania pisma: " + (data.error || "Nieznany błąd.");
-                    }
-                } catch (err) {
-                    outputContent.innerText = "Błąd połączenia z serwerem generującym pismo.";
-                }
-            }
-        });
-
         function generateDraft() {
             const input = document.getElementById('userInput').value;
             if(!input.trim()) { 
@@ -131,7 +90,7 @@
             if(input.trim()) {
                 localStorage.setItem('oddawaj_user_problem', input);
             }
-            window.location.href = "https://buy.stripe.com/5kQ5kw1H1fYeZadnL6c003"
+            window.location.href = "https://buy.stripe.com/5kQ5kw1H1fyeZadnL6c003";
         }
     </script>
 </body>
