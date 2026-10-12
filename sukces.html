@@ -4,44 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oddawaj.pl - Twój Dokument</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Czcionki Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <!-- Biblioteki do generowania PDF oraz DOCX -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://unpkg.com/docx@8.5.0/build/index.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .font-paper { font-family: 'Merriweather', serif; }
     </style>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col justify-between p-6 bg-slate-950">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between p-4 md:p-8 antialiased selection:bg-indigo-500 selection:text-white">
 
-    <div class="max-w-2xl mx-auto w-full text-center my-auto">
-        <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <div class="max-w-4xl mx-auto w-full my-auto space-y-6">
+
+        <!-- NAGŁÓWEK SUKCESU -->
+        <div class="text-center space-y-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-1">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Transakcja Zakończona Pomyślnie
+            </div>
+            <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Twój Dokument Jest Gotowy</h1>
+            <p class="text-slate-400 text-xs md:text-sm max-w-md mx-auto">Prawnik AI przeanalizował Twoją sprawę i przygotował spersonalizowane pismo procesowe.</p>
         </div>
-        
-        <h1 class="text-3xl font-bold mb-2 text-white">Płatność Przyjęta!</h1>
-        <p class="text-slate-400 mb-8">Prawnik AI przygotowuje Twoje spersonalizowane pismo...</p>
 
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl text-left relative overflow-hidden">
-            <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
+        <!-- PASEK AKCJI / TOOLBAR -->
+        <div id="action-bar" class="flex flex-wrap items-center justify-between gap-3 bg-slate-900/80 backdrop-blur border border-slate-800 p-4 rounded-2xl shadow-xl">
+            <div class="flex items-center gap-3">
                 <span id="status-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    Generowanie dokumentu...
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+                    Trwa Pisanie Pisma...
                 </span>
-                <button id="copy-btn" onclick="copyToClipboard()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition hidden flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                    Kopiuj pismo
-                </button>
             </div>
 
-            <pre id="document-output" class="whitespace-pre-wrap text-sm font-mono text-slate-300 leading-relaxed min-h-[200px]">Trwa pisanie pisma procesowego/reklamacyjnego na podstawie Twojego zgłoszenia...</pre>
+            <!-- PRZYCISKI AKCJI (Ukryte do momentu wygenerowania) -->
+            <div id="download-buttons" class="hidden flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                <button onclick="downloadPDF()" class="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl transition shadow-lg shadow-indigo-600/20 flex items-center justify-center gap-2 active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Pobierz PDF
+                </button>
+
+                <button onclick="downloadDOCX()" class="flex-1 sm:flex-none px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center justify-center gap-2 active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Pobierz Word
+                </button>
+
+                <button onclick="copyToClipboard()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5 active:scale-95">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    Kopiuj
+                </button>
+            </div>
         </div>
+
+        <!-- PODGLĄD PISMA A4 -->
+        <div class="bg-slate-900/50 p-2 sm:p-6 rounded-2xl border border-slate-800 shadow-2xl flex justify-center">
+            <div id="paper-container" class="bg-white text-slate-900 w-full max-w-[210mm] min-h-[297mm] p-8 sm:p-14 rounded-lg shadow-2xl font-paper text-sm sm:text-base leading-relaxed whitespace-pre-wrap select-text transition-all duration-300">
+                <div id="document-content" class="text-slate-800">Trwa generowanie treści pisma przez AI... Prosimy o chwilę cierpliwości.</div>
+            </div>
+        </div>
+
+        <!-- PORADNIK PO WYGENEROWANIU -->
+        <div class="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-3">
+            <h3 class="text-indigo-400 font-bold text-xs uppercase tracking-wider flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Co zrobić z gotowym pismem?
+            </h3>
+            <ul class="text-xs sm:text-sm text-slate-300 space-y-2 list-disc list-inside leading-relaxed">
+                <li>Pobierz pismo w formacie <strong class="text-white">PDF</strong> lub <strong class="text-white">Word (.docx)</strong> i uzupełnij brakujące dane (np. numer konta/podpis).</li>
+                <li>Wyślij dokument do odbiorcy e-mailem lub wydrukuj go w dwóch egzemplarzach.</li>
+                <li>W przypadku wysyłki tradycyjnej pocztą, skorzystaj z <strong class="text-white">Listu Poleconego za Potwierdzeniem Odbioru (ZPO)</strong>.</li>
+            </ul>
+        </div>
+
     </div>
 
     <script>
+        let rawDocumentText = "";
+
         async function generateDocument() {
             const prompt = localStorage.getItem('legalPrompt') || 'Brak opisu sprawy.';
-            const outputEl = document.getElementById('document-output');
+            const outputEl = document.getElementById('document-content');
             const badgeEl = document.getElementById('status-badge');
-            const copyBtn = document.getElementById('copy-btn');
+            const buttonsEl = document.getElementById('download-buttons');
 
             try {
                 const response = await fetch('/api/generate', {
@@ -53,27 +102,69 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Obsługuje zarówno klucz 'document', jak i 'text'
-                    const docText = data.document || data.text || 'Brak treści pisma.';
-                    outputEl.textContent = docText;
+                    rawDocumentText = data.document || data.text || 'Brak treści pisma.';
+                    outputEl.textContent = rawDocumentText;
                     
                     badgeEl.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
-                    badgeEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Gotowe';
-                    copyBtn.classList.remove('hidden');
+                    badgeEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Dokument Gotowy';
+                    
+                    buttonsEl.classList.remove('hidden');
                 } else {
                     throw new Error(data.error || 'Wystąpił błąd podczas generowania pisma.');
                 }
             } catch (err) {
-                outputEl.textContent = 'Wystąpił błąd: ' + err.message;
+                outputEl.textContent = 'Wystąpił błąd podczas przygotowywania pisma: ' + err.message;
                 badgeEl.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20';
-                badgeEl.innerHTML = 'Błąd';
+                badgeEl.innerHTML = 'Błąd Generowania';
             }
         }
 
+        // Pobieranie jako PDF
+        function downloadPDF() {
+            const element = document.getElementById('paper-container');
+            const opt = {
+                margin:       15,
+                filename:     'pismo_prawne_oddawaj_pl.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Pobieranie jako Word (.docx)
+        function downloadDOCX() {
+            if (!rawDocumentText) return;
+            
+            const paragraphs = rawDocumentText.split('\n').map(line => {
+                return new docx.Paragraph({
+                    children: [
+                        new docx.TextRun({
+                            text: line,
+                            font: "Times New Roman",
+                            size: 24
+                        })
+                    ],
+                    spacing: { after: 120 }
+                });
+            });
+
+            const doc = new docx.Document({
+                sections: [{
+                    properties: {},
+                    children: paragraphs
+                }]
+            });
+
+            docx.Packer.toBlob(doc).then(blob => {
+                saveAs(blob, "pismo_prawne_oddawaj_pl.docx");
+            });
+        }
+
+        // Kopiowanie do schowka
         function copyToClipboard() {
-            const text = document.getElementById('document-output').textContent;
-            navigator.clipboard.writeText(text);
-            alert('Pismo skopiowane do schowka!');
+            navigator.clipboard.writeText(rawDocumentText);
+            alert('Treść pisma została skopiowana do schowka!');
         }
 
         generateDocument();
