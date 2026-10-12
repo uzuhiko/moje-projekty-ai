@@ -1,117 +1,138 @@
 <!DOCTYPE html>
-<html lang="pl">
 <html lang="pl" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oddawaj.pl - Twój Dokument</title>
+    <title>Oddawaj.pl — Odzyskaj Swoje Pieniądze w 30 Sekund</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #07090e; }
+        .glass-card { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glow-emerald { box-shadow: 0 0 50px -12px rgba(16, 185, 129, 0.35); }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen flex flex-col items-center justify-center p-6">
-    <div class="max-w-3xl w-full bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow-2xl">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-xl font-bold">Twój Dokument Prawny</h1>
-            <span id="statusBadge" class="text-xs font-semibold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">Generowanie dokumentu...</span>
-<body class="text-slate-100 min-h-screen flex flex-col justify-between p-6 bg-slate-950">
+<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
 
-    <div class="max-w-2xl mx-auto w-full text-center my-auto">
-        <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4 border border-emerald-500/20">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <!-- Top Navigation -->
+    <header class="w-full border-b border-white/5 py-5 px-6 max-w-6xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
+            <span class="text-2xl font-extrabold tracking-tight text-white">Oddawaj<span class="text-emerald-400">.pl</span></span>
+        </div>
+        <div class="text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Automatyzacja Prawna AI
+        </div>
+    </header>
+
+    <!-- Hero Content -->
+    <main class="max-w-3xl mx-auto px-6 py-16 text-center flex-grow flex flex-col justify-center items-center">
+        <span class="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-4 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+            Bez prawników • Bez formalności • W 30 sekund
+        </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6 leading-tight">
+            Należne Ci pieniądze. <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Znowu w Twojej kieszeni.</span>
+        </h1>
+        <p class="text-slate-400 text-base md:text-lg mb-10 max-w-xl font-medium leading-relaxed">
+            Spóźniony pociąg, opóźniony lot, nieuznana reklamacja lub problem z przesyłką? Wklej opis sprawy, a nasz system AI przygotuje oficjalne pismo prawne.
+        </p>
+
+        <!-- Main Form Card -->
+        <div class="w-full glass-card rounded-3xl p-6 md:p-8 text-left glow-emerald mb-8 relative overflow-hidden">
+            <label class="block text-sm font-semibold mb-3 text-slate-200 flex justify-between">
+                <span>Opisz swoją sytuację</span>
+                <span class="text-xs text-slate-500">Wystarczy kilka zdań</span>
+            </label>
+            <textarea id="userInput" rows="4" class="w-full bg-slate-950/80 border border-white/10 rounded-2xl p-4 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-all text-sm mb-5 resize-none" placeholder="np. Pociąg PKP Intercity z Warszawy do Gdańska opóźnił się o 85 minut. Bilet kosztował 98 zł."></textarea>
+
+            <button id="generateBtn" onclick="generateDraft()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-bold py-4 px-6 rounded-2xl transition-all duration-200 transform hover:-translate-y-0.5 shadow-lg shadow-emerald-500/25 text-center text-sm md:text-base">
+                Wygeneruj Pismo Reklamacyjne (9,99 zł)
+            </button>
         </div>
 
-        <div id="legalDoc" class="bg-slate-950 p-6 rounded-xl border border-slate-800 text-slate-300 whitespace-pre-wrap font-mono text-sm min-h-[350px] max-h-[500px] overflow-y-auto">
-            Trwa pisanie spersonalizowanego pisma procesowego/reklamacyjnego na podstawie Twojego zgłoszenia...
-        </div>
-        <h1 class="text-3xl font-bold mb-2 text-white">Płatność Przyjęta!</h1>
-        <p class="text-slate-400 mb-8">Prawnik AI przygotowuje Twoje spersonalizowane pismo...</p>
-
-        <button onclick="navigator.clipboard.writeText(document.getElementById('legalDoc').innerText); alert('Pismo zostało skopiowane do schowka!');" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-500 text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-emerald-900/20">
-            Kopiuj pismo do schowka
-        </button>
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl text-left relative overflow-hidden">
-            <div class="flex items-center justify-between mb-4 pb-4 border-b border-slate-800">
-                <span id="status-badge" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    Generowanie dokumentu...
+        <!-- Dynamic Output Box -->
+        <div id="resultBox" class="hidden w-full glass-card rounded-3xl p-6 text-left border-emerald-500/30">
+            <div class="flex items-center justify-between mb-4">
+                <span id="boxStatusTitle" class="text-emerald-400 text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Podgląd dokumentu
                 </span>
-                <button id="copy-btn" onclick="copyToClipboard()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg border border-slate-700 transition hidden flex items-center gap-1.5">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                    Kopiuj pismo
-                </button>
+                <span id="boxPriceLabel" class="text-slate-400 text-xs font-semibold">Opłata jednorazowa: 9,99 zł</span>
             </div>
-
-            <pre id="document-output" class="whitespace-pre-wrap text-sm font-mono text-slate-300 leading-relaxed min-h-[200px]">Trwa pisanie pisma procesowego/reklamacyjnego na podstawie Twojego zgłoszenia...</pre>
+            <pre id="outputContent" class="whitespace-pre-wrap text-slate-300 text-xs md:text-sm bg-slate-950/90 p-5 rounded-xl border border-white/5 mb-5 font-mono leading-relaxed max-h-96 overflow-y-auto"></pre>
+            <button id="actionButton" onclick="redirectToCheckout()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3.5 rounded-xl transition text-sm">
+                Odblokuj Pełny Dokument i Pobierz (BLIK)
+            </button>
         </div>
-    </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="border-t border-white/5 py-6 text-center text-xs text-slate-600">
+        &copy; 2026 Oddawaj.pl. Błyskawiczne generowanie pism konsumenckich przez AI.
+    </footer>
 
     <script>
         window.addEventListener('DOMContentLoaded', async () => {
-            const docElement = document.getElementById('legalDoc');
-            const badge = document.getElementById('statusBadge');
-            
-            // Pobieramy problem wpisany przez użytkownika na stronie głównej
-            const userProblem = localStorage.getItem('oddawaj_user_problem') || 'Problem z reklamacją / opóźnieniem usługi lub towaru';
-        async function generateDocument() {
-            const prompt = localStorage.getItem('legalPrompt') || 'Brak opisu sprawy.';
-            const outputEl = document.getElementById('document-output');
-            const badgeEl = document.getElementById('status-badge');
-            const copyBtn = document.getElementById('copy-btn');
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                const resultBox = document.getElementById('resultBox');
+                const outputContent = document.getElementById('outputContent');
+                const statusTitle = document.getElementById('boxStatusTitle');
+                const priceLabel = document.getElementById('boxPriceLabel');
+                const actionButton = document.getElementById('actionButton');
 
-            try {
-                // Wysyłamy żądanie do OpenAI przez nasz backend na Vercelu
-                const response = await fetch('/api/generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: userProblem })
-                    body: JSON.stringify({ prompt })
-                });
-                
-                const data = await response.json();
-                console.log('Odpowiedź z AI:', data);
+                resultBox.classList.remove('hidden');
+                statusTitle.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Płatność udana — Sztuczna Inteligencja generuje pełny dokument...';
+                priceLabel.innerText = 'Status: Opłacone ✓';
+                outputContent.innerText = "Trwa łączenie z modelem AI i generowanie oficjalnego pisma na podstawie Twoich danych...\nProszę czekać kilkanaście sekund.";
+                actionButton.style.display = "none";
 
-                // Obsługujemy różne warianty kluczy zwracanych przez backend
-                const resultText = data.text || data.document || data.choices?.[0]?.message?.content;
-                const data = await response.json();
+                const savedProblem = localStorage.getItem('oddawaj_user_problem') || "Brak podanego opisu sprawy.";
 
-                if (resultText) {
-                    docElement.innerText = resultText;
-                    badge.innerText = "Dokument Gotowy";
-                    badge.className = "text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full border border-emerald-500/20";
-                if (response.ok) {
-                    // Obsługuje zarówno klucz 'document', jak i 'text'
-                    const docText = data.document || data.text || 'Brak treści pisma.';
-                    outputEl.textContent = docText;
-                    
-                    badgeEl.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
-                    badgeEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Gotowe';
-                    copyBtn.classList.remove('hidden');
-                } else {
-                    docElement.innerText = "Otrzymano odpowiedź z serwera, ale format jest nieznany:\n\n" + JSON.stringify(data, null, 2);
-                    throw new Error(data.error || 'Wystąpił błąd podczas generowania pisma.');
+                try {
+                    const response = await fetch('/api/generate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: savedProblem })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.document) {
+                        outputContent.innerText = data.document;
+                        statusTitle.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Gotowe do pobrania i wysłania';
+                        actionButton.style.display = "block";
+                        actionButton.innerText = "Pobierz / Wydrukuj Dokument PDF";
+                        actionButton.onclick = function() { window.print(); };
+                    } else {
+                        outputContent.innerText = "Wystąpił błąd podczas generowania pisma: " + (data.error || "Nieznany błąd.");
+                    }
+                } catch (err) {
+                    outputContent.innerText = "Błąd połączenia z serwerem generującym pismo.";
                 }
-            } catch (err) {
-                console.error(err);
-                docElement.innerText = "Wystąpił błąd podczas generowania pisma: " + err.message;
-                badge.innerText = "Błąd";
-                badge.className = "text-xs font-semibold text-red-400 bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20";
-                outputEl.textContent = 'Wystąpił błąd: ' + err.message;
-                badgeEl.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-rose-500/10 text-rose-400 border border-rose-500/20';
-                badgeEl.innerHTML = 'Błąd';
             }
         });
+
+        function generateDraft() {
+            const input = document.getElementById('userInput').value;
+            if(!input.trim()) { 
+                alert("Wpisz krótkie podsumowanie problemu!"); 
+                return; 
+            }
+            document.getElementById('resultBox').classList.remove('hidden');
+            document.getElementById('outputContent').innerText = 
+                "PODGLĄD PISMA REKLAMACYJNEGO\n\n" +
+                "Opis sprawy: " + input + "\n\n" +
+                "Niniejszym wzywam do zwrotu należności z tytułu nienależytego wykonania usługi...\n\n" +
+                "[PEŁNY DOKUMENT WYGENEROWANY PRZEZ AI Z PODSTAWĄ PRAWNĄ ZOSTANIE ODBLOKOWANY PO OPŁACENIU 9,99 ZŁ]";
         }
 
-        function copyToClipboard() {
-            const text = document.getElementById('document-output').textContent;
-            navigator.clipboard.writeText(text);
-            alert('Pismo skopiowane do schowka!');
+        function redirectToCheckout() {
+            const input = document.getElementById('userInput').value;
+            if(input.trim()) {
+                localStorage.setItem('oddawaj_user_problem', input);
+            }
+            window.location.href = "https://buy.stripe.com/5kQ5kw1H1fYeZadnL6c003";
         }
-
-        generateDocument();
     </script>
 </body>
 </html>
