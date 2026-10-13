@@ -154,7 +154,8 @@ function preview() {
   
   const head = document.createElement('span');
   head.textContent = v('name') + (v('address') ? "\n" + v('address') : "") + "\n\n" +
-    "Warszawa, " + today + "\n\n" + v('company') + "\n\n" +
+    "Miejscowość: [Do uzupełnienia], " + today + "\n\n" +
+    "Adresat: " + v('company') + "\n\n" +
     "WEZWANIE / REKLAMACJA – " + v('kind').toUpperCase() + "\n\n";
     
   const lock = document.createElement('span');
