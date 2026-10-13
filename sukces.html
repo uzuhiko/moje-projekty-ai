@@ -55,7 +55,7 @@ function fail(msg) {
 }
 
 async function run(prompt) {
-  if (!prompt || prompt.trim().length < 15) { fail('Opis sprawy jest zbyt krótki.'); return; }
+  if (!prompt || prompt.trim().length < 3) { fail('Opis sprawy jest zbyt krótki.'); return; }
   document.getElementById('fallback').classList.add('hidden');
   doc.textContent = 'Przygotowuję pismo…';
   badge.textContent = 'Generowanie… (do 30 s)';
