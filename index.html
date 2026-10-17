@@ -1,185 +1,684 @@
 <!DOCTYPE html>
-<html lang="pl" class="dark">
+<html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oddawaj.pl — Pismo reklamacyjne i wezwanie do zwrotu w 2 minuty</title>
-<meta name="description" content="Opóźniony pociąg, lot, nieuznana reklamacja? Wypełnij formularz i pobierz gotowe pismo do firmy. 9,99 zł, płatność BLIK.">
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oddawaj.pl — pismo do firmy, gotowe w minutę</title>
+<meta name="description" content="Opisz sprawę, a otrzymasz formalne pismo reklamacyjne lub wezwanie do zapłaty z podstawą prawną. Pobierz jako PDF, Word lub tekst. 9,99 zł, płatność BLIK.">
+<meta name="theme-color" content="#f3f0e8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e1311" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="Oddawaj.pl — pismo do firmy, gotowe w minutę">
+<meta property="og:description" content="Spóźniony pociąg, lot, reklamacja, paczka. Opisz sprawę i pobierz gotowe pismo.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230d6b4c'/%3E%3Cpath d='M9 16a7 7 0 1 0 2.2-5.1' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round'/%3E%3Cpath d='M8.5 7.5v4.4h4.4' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
 <style>
-body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #07090e; }
-.card { background: rgba(15, 23, 42, 0.65); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
-.f { width: 100%; background: #020617cc; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 0.9rem; padding: 0.8rem 1rem; font-size: 0.9rem; color: #f1f5f9; }
-.f:focus { outline: none; border-color: #10b981; }
-.blur-text { filter: blur(5px); user-select: none; }
+:root{
+  --bg:#f3f0e8; --bg-2:#ebe7dc; --card:#fbfaf5; --ink:#12161b; --ink-2:#2d343c; --muted:#5f6973;
+  --line:#dcd6c8; --line-2:#c9c2b0; --accent:#0d6b4c; --accent-hover:#0a5a40; --accent-soft:#dcebe4;
+  --on-accent:#ffffff; --err:#b3261e; --err-soft:#fbe9e7; --focus:#0d6b4c;
+  --paper:#fffefa; --paper-ink:#1b1d20; --paper-muted:#8a8f96;
+  --shadow-1:0 1px 2px rgba(25,20,5,.06),0 8px 24px -12px rgba(25,20,5,.18);
+  --shadow-2:0 2px 4px rgba(25,20,5,.05),0 30px 60px -28px rgba(25,20,5,.35);
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --sans:'Geist',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  --doc:'Source Serif 4',Georgia,'Times New Roman',serif;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#0e1311; --bg-2:#131a17; --card:#151c19; --ink:#eef1ee; --ink-2:#cdd5d0; --muted:#97a39c;
+    --line:#25302b; --line-2:#34423b; --accent:#4cd6a2; --accent-hover:#6be3b6; --accent-soft:#16342a;
+    --on-accent:#04130c; --err:#ff8a80; --err-soft:#3a1d1a; --focus:#4cd6a2;
+    --shadow-1:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+    --shadow-2:0 2px 4px rgba(0,0,0,.4),0 30px 60px -28px rgba(0,0,0,.8);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+img,svg{display:block;max-width:100%}
+a{color:inherit}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1160px,100% - 40px);margin-inline:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+h1,h2,h3{font-family:var(--serif);font-weight:400;letter-spacing:-.01em;margin:0;text-wrap:balance}
+h1 em,h2 em{font-style:italic;color:var(--accent)}
+p{margin:0;text-wrap:pretty}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;border:1px solid transparent;border-radius:12px;padding:.85rem 1.35rem;font-weight:600;font-size:.97rem;cursor:pointer;text-decoration:none;transition:background .18s,transform .18s,box-shadow .18s,border-color .18s;line-height:1.1}
+.btn-primary{background:var(--accent);color:var(--on-accent);box-shadow:0 1px 0 rgba(255,255,255,.18) inset,0 10px 24px -12px var(--accent)}
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px)}
+.btn-primary:active{transform:none}
+.btn-primary[disabled]{opacity:.7;cursor:progress;transform:none}
+.btn-ghost{background:transparent;border-color:var(--line-2);color:var(--ink)}
+.btn-ghost:hover{background:var(--bg-2)}
+.btn-sm{padding:.6rem 1rem;font-size:.9rem;border-radius:10px}
+.btn-lg{padding:1.05rem 1.6rem;font-size:1.02rem;border-radius:14px}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* Header */
+.top{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top.scrolled{border-bottom-color:var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;font-family:var(--serif);font-size:1.7rem;letter-spacing:-.01em;line-height:1}
+.brand .mark{width:30px;height:30px;border-radius:9px;background:var(--accent);display:grid;place-items:center}
+.brand .mark svg{width:18px;height:18px;stroke:var(--on-accent)}
+.brand b{font-weight:400;color:var(--accent)}
+.nav{display:flex;align-items:center;gap:1.6rem}
+.nav a:not(.btn){text-decoration:none;font-size:.93rem;color:var(--muted);font-weight:500}
+.nav a:not(.btn):hover{color:var(--ink)}
+
+/* Hero */
+.hero{padding:clamp(40px,7vw,96px) 0 clamp(56px,8vw,110px)}
+.hero-grid{display:grid;grid-template-columns:1.08fr .92fr;gap:clamp(32px,6vw,88px);align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:.55rem;font-size:.8rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.eyebrow::before{content:"";width:26px;height:1.5px;background:currentColor}
+.hero h1{font-size:clamp(2.9rem,7.2vw,5.6rem);line-height:.98;margin:1.1rem 0 1.4rem}
+.lead{font-size:clamp(1.05rem,1.6vw,1.2rem);color:var(--ink-2);max-width:34rem}
+.hero-cta{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:2rem}
+.trust{display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;margin:2.2rem 0 0;padding:0;list-style:none;color:var(--muted);font-size:.9rem}
+.trust li{display:flex;align-items:center;gap:.5rem}
+.trust svg{width:16px;height:16px;color:var(--accent);flex:none}
+
+/* Hero paper visual */
+.stage{position:relative;padding:18px 0 26px}
+.demo{position:relative;background:var(--paper);color:var(--paper-ink);border-radius:6px;padding:clamp(22px,3.4vw,38px);box-shadow:var(--shadow-2);transform:rotate(1.6deg);border:1px solid rgba(0,0,0,.05);max-width:440px;margin-inline:auto}
+.demo::before{content:"";position:absolute;inset:0;border-radius:6px;background:linear-gradient(180deg,rgba(255,255,255,.7),rgba(255,255,255,0) 40%);pointer-events:none}
+.demo .row{display:flex;justify-content:space-between;gap:1rem;margin-bottom:1.4rem}
+.bar-l{height:7px;border-radius:4px;background:#e4e1d8;margin:0 0 9px}
+.demo h3{font-family:var(--doc);font-weight:600;font-size:1.02rem;letter-spacing:0;margin:1.5rem 0 1rem;color:var(--paper-ink)}
+.demo .hl{background:linear-gradient(transparent 55%,#bfe3d2 55%);padding:0 2px}
+.chip{position:absolute;display:flex;align-items:center;gap:.55rem;background:var(--card);color:var(--ink);border:1px solid var(--line);padding:.55rem .85rem;border-radius:999px;font-size:.84rem;font-weight:600;box-shadow:var(--shadow-1);white-space:nowrap}
+.chip svg{width:16px;height:16px;color:var(--accent)}
+.chip.c1{left:-4%;top:12%;transform:rotate(-3deg)}
+.chip.c2{right:-3%;top:44%;transform:rotate(2.5deg)}
+.chip.c3{left:2%;bottom:3%;transform:rotate(-1.5deg)}
+
+/* Sections */
+section{scroll-margin-top:84px}
+.sec{padding:clamp(56px,8vw,104px) 0}
+.sec-head{max-width:40rem;margin-bottom:clamp(30px,4vw,52px)}
+.sec-head h2{font-size:clamp(2.1rem,4.6vw,3.5rem);line-height:1.02;margin-top:.9rem}
+.sec-head p{margin-top:1rem;color:var(--ink-2);font-size:1.07rem}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:0;padding:0;list-style:none}
+.step{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px;box-shadow:var(--shadow-1)}
+.step .n{font-family:var(--serif);font-size:3.4rem;line-height:1;color:var(--accent)}
+.step h3{font-family:var(--sans);font-weight:600;font-size:1.15rem;letter-spacing:0;margin:1.2rem 0 .5rem}
+.step p{color:var(--ink-2);font-size:.98rem}
+
+.split{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(30px,6vw,90px);align-items:start}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.checks li{display:grid;grid-template-columns:30px 1fr;gap:16px;padding:20px 0;border-top:1px solid var(--line)}
+.checks li:last-child{border-bottom:1px solid var(--line)}
+.checks .ic{width:30px;height:30px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center}
+.checks .ic svg{width:15px;height:15px}
+.checks strong{display:block;font-weight:600}
+.checks span.d{color:var(--muted);font-size:.95rem}
+
+/* Generator */
+.gen{background:var(--bg-2);border-block:1px solid var(--line)}
+.gen-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,4vw,56px);align-items:start}
+.form-card{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:clamp(22px,3.2vw,38px);box-shadow:var(--shadow-1)}
+.legend{font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:.7rem;margin:0 0 .9rem;padding:0}
+.legend i{font-style:normal;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--bg);font-size:.72rem;letter-spacing:0}
+fieldset{border:0;padding:0;margin:0 0 1.9rem;min-width:0}
+.kinds{display:flex;flex-wrap:wrap;gap:8px}
+.kinds label{position:relative}
+.kinds input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.kinds span{display:inline-block;padding:.6rem 1rem;border:1px solid var(--line-2);border-radius:999px;font-size:.93rem;font-weight:500;cursor:pointer;background:transparent;transition:all .15s}
+.kinds label:hover span{border-color:var(--ink-2)}
+.kinds input:checked+span{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.kinds input:focus-visible+span{outline:2px solid var(--focus);outline-offset:3px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px;min-width:0}
+.field label,.field .lbl{font-size:.88rem;font-weight:600}
+.field label small,.field .lbl small{font-weight:400;color:var(--muted)}
+.input{width:100%;background:var(--bg);border:1px solid var(--line-2);border-radius:12px;padding:.8rem .95rem;font-size:1rem;transition:border-color .15s,box-shadow .15s;min-width:0}
+.input::placeholder{color:color-mix(in srgb,var(--muted) 70%,transparent)}
+.input:hover{border-color:var(--muted)}
+.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+textarea.input{resize:vertical;min-height:150px;line-height:1.5}
+.input[aria-invalid="true"]{border-color:var(--err);background:var(--err-soft)}
+.err{color:var(--err);font-size:.83rem;font-weight:500;margin:0}
+.meta{display:flex;justify-content:space-between;gap:1rem;font-size:.8rem;color:var(--muted)}
+.consent{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;font-size:.86rem;color:var(--ink-2);margin:.4rem 0 1.2rem}
+.consent input{width:20px;height:20px;margin:2px 0 0;accent-color:var(--accent)}
+.consent.bad{color:var(--err)}
+.pay-note{margin-top:.9rem;font-size:.82rem;color:var(--muted);text-align:center}
+.pay-btn{width:100%}
+.price{font-variant-numeric:tabular-nums;opacity:.92;padding-left:.7rem;border-left:1px solid rgba(255,255,255,.35)}
+@media (prefers-color-scheme:dark){.price{border-left-color:rgba(0,0,0,.3)}}
+
+/* Preview */
+.preview{position:sticky;top:92px}
+.pv-label{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.pv-label .live{display:inline-flex;align-items:center;gap:.45rem}
+.pv-label .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.paper{position:relative;background:var(--paper);color:var(--paper-ink);border-radius:6px;border:1px solid rgba(0,0,0,.06);box-shadow:var(--shadow-2);padding:clamp(22px,3vw,36px);font-family:var(--doc);font-size:.93rem;line-height:1.6;overflow:hidden}
+.paper p{margin:0 0 .85rem;text-wrap:pretty;overflow-wrap:anywhere}
+.paper .r{text-align:right}
+.paper .ph{color:var(--paper-muted);font-style:italic}
+.paper .ttl{font-weight:600;margin:1.1rem 0}
+.paper .addr{white-space:pre-line}
+.locked{position:relative;margin-top:.6rem;padding-top:.4rem}
+.locked .sk{filter:blur(3.5px);opacity:.75;user-select:none;pointer-events:none}
+.locked .sk i{display:block;height:9px;border-radius:5px;background:#cfd3d8;margin:0 0 11px}
+.locked .badge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;gap:.6rem;background:var(--paper-ink);color:#fff;padding:.7rem 1.1rem;border-radius:999px;font-family:var(--sans);font-size:.84rem;font-weight:600;white-space:nowrap;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+.locked .badge svg{width:15px;height:15px}
+.pv-cta{margin-top:18px}
+.pv-hint{margin-top:.8rem;font-size:.83rem;color:var(--muted);text-align:center}
+
+/* FAQ */
+.faq{max-width:760px}
+details{border-top:1px solid var(--line)}
+details:last-of-type{border-bottom:1px solid var(--line)}
+summary{list-style:none;cursor:pointer;padding:22px 40px 22px 0;position:relative;font-weight:600;font-size:1.04rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"";position:absolute;right:6px;top:50%;width:10px;height:10px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:translateY(-70%) rotate(45deg);transition:transform .2s}
+details[open] summary::after{transform:translateY(-30%) rotate(-135deg)}
+details p{padding:0 40px 24px 0;color:var(--ink-2)}
+
+/* CTA band + footer */
+.band{background:var(--ink);color:var(--bg);border-radius:28px;padding:clamp(34px,6vw,72px);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.band h2{font-size:clamp(2rem,4.4vw,3.3rem);line-height:1.03;max-width:26rem}
+.band h2 em{color:var(--accent)}
+@media (prefers-color-scheme:dark){.band{background:var(--card);border:1px solid var(--line);color:var(--ink)}}
+.band .btn-primary{background:var(--bg);color:var(--ink);box-shadow:none}
+.band .btn-primary:hover{background:#fff}
+@media (prefers-color-scheme:dark){.band .btn-primary{background:var(--accent);color:var(--on-accent)}}
+footer{padding:48px 0 60px;color:var(--muted);font-size:.88rem}
+.foot{display:flex;justify-content:space-between;gap:1.4rem 2rem;flex-wrap:wrap;align-items:flex-start}
+.foot nav{display:flex;gap:1.4rem;flex-wrap:wrap}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--ink);text-decoration:underline}
+.legal{margin-top:1.4rem;max-width:46rem;font-size:.8rem;line-height:1.6}
+
+/* Reveal */
+.js .rv{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
+.js .rv.in{opacity:1;transform:none}
+
+/* Responsive */
+@media (max-width:980px){
+  .hero-grid,.split,.gen-grid{grid-template-columns:1fr}
+  .stage{max-width:460px;margin-inline:auto;width:100%}
+  .preview{position:static}
+  .steps{grid-template-columns:1fr}
+}
+@media (max-width:640px){
+  .nav a:not(.btn){display:none}
+  .grid2{grid-template-columns:1fr}
+  .chip.c1{left:-2%}.chip.c2{right:-2%}
+  .hero-cta .btn{flex:1 1 100%}
+  .band .btn{width:100%}
+  .locked .badge{white-space:normal;text-align:center;width:max-content;max-width:86%}
+}
+@media print{.top,.hero,.gen,.sec,footer{display:none}}
 </style>
 </head>
-<body class="text-slate-100 min-h-screen flex flex-col justify-between selection:bg-emerald-500 selection:text-black">
+<body>
+<a class="sr" href="#generator">Przejdź do generatora</a>
 
-<header class="w-full max-w-5xl mx-auto px-5 py-4 flex justify-between items-center border-b border-white/5">
-  <div class="flex items-center gap-2">
-    <div class="w-3 h-3 rounded-full bg-emerald-500 animate-pulse"></div>
-    <span class="text-xl font-extrabold text-white">Oddawaj<span class="text-emerald-400">.pl</span></span>
+<header class="top" id="top">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="Oddawaj.pl — strona główna">
+      <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5"/><path d="M4 4.2v4.5h4.5"/></svg></span>
+      <span>Oddawaj<b>.pl</b></span>
+    </a>
+    <nav class="nav" aria-label="Główna nawigacja">
+      <a href="#jak">Jak to działa</a>
+      <a href="#faq">Pytania</a>
+      <a class="btn btn-primary btn-sm" href="#generator">Napisz pismo</a>
+    </nav>
   </div>
-  <span class="text-xs font-semibold text-emerald-400 border border-emerald-500/20 bg-emerald-500/10 rounded-full px-3 py-1.5">Płatność BLIK</span>
 </header>
 
-<main class="max-w-2xl mx-auto px-5 py-8 w-full flex-grow">
-  <h1 class="text-3xl md:text-5xl font-extrabold leading-tight text-center mb-4">
-    Odzyskaj pieniądze. <br><span class="text-emerald-400">Pismo gotowe w 2 minuty.</span>
-  </h1>
-  <p class="text-slate-400 text-center mb-6 text-sm md:text-base leading-relaxed">
-    Spóźniony pociąg lub lot, nieuznana reklamacja, wadliwy towar. Wypełnij pola, zobacz podgląd, pobierz gotowe pismo do wysłania firmie.
-  </p>
-
-  <div class="flex justify-center gap-3 md:gap-4 text-xs text-slate-400 mb-6 flex-wrap">
-    <span>✓ Podstawa prawna w treści</span>
-    <span>✓ Gotowe do wysłania</span>
-    <span>✓ 9,99 zł, bez subskrypcji</span>
-  </div>
-
-  <section class="card rounded-3xl p-5 md:p-7 space-y-4 shadow-2xl">
-    <div>
-      <label class="text-sm font-semibold block mb-1 text-slate-200" for="kind">Czego dotyczy sprawa? *</label>
-      <select id="kind" class="f">
-        <option value="">Wybierz…</option>
-        <option>Opóźniony lub odwołany pociąg</option>
-        <option>Opóźniony lub odwołany lot</option>
-        <option>Reklamacja towaru (wada, niezgodność z umową)</option>
-        <option>Reklamacja usługi</option>
-        <option>Zakup online – odstąpienie od umowy / zwrot</option>
-        <option>Problem z przesyłką kurierską</option>
-        <option>Inna sprawa</option>
-      </select>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-4">
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
       <div>
-        <label class="text-sm font-semibold block mb-1 text-slate-200" for="company">Nazwa firmy *</label>
-        <input id="company" class="f" placeholder="np. PKP Intercity S.A.">
+        <span class="eyebrow">Generator pism konsumenckich</span>
+        <h1>Pismo do firmy, <em>gotowe w&nbsp;minutę.</em></h1>
+        <p class="lead">Spóźniony pociąg, odwołany lot, nieuznana reklamacja albo paczka, która nie dotarła. Opisz, co się stało — dostaniesz formalne pismo z żądaniem i podstawą prawną, gotowe do wysłania.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary btn-lg" href="#generator">Napisz pismo · 9,99&nbsp;zł
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#jak">Zobacz, jak to działa</a>
+        </div>
+        <ul class="trust">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Płatność BLIK przez Stripe</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Bez konta i abonamentu</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>PDF, Word i tekst</li>
+        </ul>
       </div>
-      <div>
-        <label class="text-sm font-semibold block mb-1 text-slate-200" for="amount">Kwota (zł)</label>
-        <input id="amount" class="f" inputmode="decimal" placeholder="np. 98">
-      </div>
-      <div>
-        <label class="text-sm font-semibold block mb-1 text-slate-200" for="date">Data zdarzenia / zakupu</label>
-        <input id="date" type="date" class="f">
-      </div>
-      <div>
-        <label class="text-sm font-semibold block mb-1 text-slate-200" for="name">Imię i nazwisko *</label>
-        <input id="name" class="f" autocomplete="name" placeholder="Jan Kowalski">
+
+      <div class="stage" aria-hidden="true">
+        <div class="demo">
+          <div class="row"><div style="width:42%"><div class="bar-l"></div><div class="bar-l" style="width:70%"></div></div><div style="width:30%"><div class="bar-l" style="margin-left:auto;width:90%"></div></div></div>
+          <div style="width:48%"><div class="bar-l"></div><div class="bar-l" style="width:80%"></div></div>
+          <h3>Wezwanie do <span class="hl">zwrotu należności</span></h3>
+          <div class="bar-l"></div><div class="bar-l" style="width:96%"></div><div class="bar-l" style="width:92%"></div><div class="bar-l" style="width:60%"></div>
+          <div style="height:12px"></div>
+          <div class="bar-l"></div><div class="bar-l" style="width:94%"></div><div class="bar-l" style="width:88%"></div><div class="bar-l" style="width:97%"></div><div class="bar-l" style="width:40%"></div>
+          <div style="height:22px"></div>
+          <div class="bar-l" style="width:30%;background:#cfe6da"></div>
+        </div>
+        <div class="chip c1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Termin 14 dni</div>
+        <div class="chip c2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Podstawa prawna</div>
+        <div class="chip c3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Pouczenie o dalszych krokach</div>
       </div>
     </div>
-
-    <div>
-      <label class="text-sm font-semibold block mb-1 text-slate-200" for="address">Adres (do nagłówka pisma)</label>
-      <input id="address" class="f" autocomplete="street-address" placeholder="ul. Przykładowa 1, 00-001 Warszawa">
-    </div>
-
-    <div>
-      <label class="text-sm font-semibold block mb-1 text-slate-200" for="story">Co się stało? *</label>
-      <textarea id="story" rows="4" maxlength="1500" class="f resize-none" placeholder="np. Pociąg z Warszawy do Gdańska opóźnił się o 85 minut. Nr biletu: 123. Nie dostałem żadnej odpowiedzi."></textarea>
-    </div>
-
-    <div>
-      <label class="text-sm font-semibold block mb-1 text-slate-200" for="demand">Czego żądasz?</label>
-      <select id="demand" class="f">
-        <option>Zwrot pieniędzy</option>
-        <option>Odszkodowanie / rekompensata</option>
-        <option>Naprawa lub wymiana towaru</option>
-        <option>Obniżenie ceny</option>
-      </select>
-    </div>
-
-    <p id="err" class="text-rose-400 text-sm hidden"></p>
-
-    <button onclick="preview()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-400 hover:opacity-90 text-slate-950 font-bold py-4 rounded-2xl text-base transition shadow-lg shadow-emerald-500/20">
-      Zobacz podgląd pisma →
-    </button>
   </section>
 
-  <section id="resultBox" class="hidden card rounded-3xl p-5 md:p-7 mt-6 border-emerald-500/30">
-    <p class="text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
-      <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Podgląd dokumentu
-    </p>
-    <pre id="out" class="whitespace-pre-wrap text-xs md:text-sm font-mono text-slate-300 bg-slate-950/90 p-4 rounded-xl border border-white/5 mb-4 max-h-80 overflow-y-auto"></pre>
-    
-    <label class="flex gap-3 text-xs text-slate-400 mb-4 items-start cursor-pointer">
-      <input id="consent" type="checkbox" class="mt-0.5 accent-emerald-500">
-      <span>Akceptuję <a href="/regulamin.html" class="underline" target="_blank">regulamin</a> i <a href="/prywatnosc.html" class="underline" target="_blank">politykę prywatności</a>. Żądam natychmiastowego dostarczenia treści cyfrowej i przyjmuję do wiadomości, że po jej dostarczeniu tracę prawo do odstąpienia od umowy.</span>
-    </label>
+  <!-- JAK TO DZIAŁA -->
+  <section class="sec" id="jak" style="padding-top:0">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Jak to działa</span>
+        <h2>Trzy kroki. <em>Zero formalności.</em></h2>
+      </div>
+      <ol class="steps">
+        <li class="step rv"><div class="n">1</div><h3>Opisz sprawę</h3><p>Wybierz rodzaj sprawy i wpisz kilka faktów: firma, data, kwota, co poszło nie tak. Zajmuje to około dwóch minut.</p></li>
+        <li class="step rv"><div class="n">2</div><h3>Zobacz podgląd i zapłać</h3><p>Podgląd budujemy na bieżąco z Twoich danych. Pełne pismo odblokowujesz jedną płatnością BLIK — 9,99&nbsp;zł.</p></li>
+        <li class="step rv"><div class="n">3</div><h3>Pobierz i wyślij</h3><p>Uzupełnij ewentualne braki, a potem pobierz pismo jako PDF, Word lub tekst. Wyślij listem poleconym lub e-mailem.</p></li>
+      </ol>
+    </div>
+  </section>
 
-    <button onclick="pay()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-4 rounded-xl text-base transition shadow-lg shadow-emerald-500/20">
-      Odblokuj pełne pismo – 9,99 zł (BLIK)
-    </button>
-    <p class="text-[11px] text-slate-500 mt-3 text-center">Pismo generuje AI na podstawie Twoich danych. To wzór dokumentu, nie porada prawna. Sprawdź treść przed wysłaniem.</p>
+  <!-- CO W PIŚMIE -->
+  <section class="sec" style="padding-top:0">
+    <div class="wrap split">
+      <div class="sec-head rv" style="margin:0">
+        <span class="eyebrow">Co dostajesz</span>
+        <h2>Pismo, które <em>wygląda</em> i&nbsp;brzmi poważnie.</h2>
+        <p>Struktura, jakiej oczekuje dział reklamacji — bez ozdobników i bez zmyślonych faktów.</p>
+      </div>
+      <ul class="checks rv">
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span><div><strong>Kompletny układ formalny</strong><span class="d">Dane nadawcy, miejscowość i data, adresat, tytuł, stan faktyczny, żądanie i podpis.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span><div><strong>Jasne żądanie i termin</strong><span class="d">Konkretne roszczenie oraz termin odpowiedzi — domyślnie 14 dni, chyba że przepis stanowi inaczej.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span><div><strong>Podstawa prawna</strong><span class="d">Powołujemy tylko przepisy, co do których model jest pewny. Gdy nie ma pewności — opisuje podstawę ogólnie.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span><div><strong>Pouczenie o dalszych krokach</strong><span class="d">Informacja o możliwości zwrócenia się do UOKiK, rzecznika konsumentów lub sądu.</span></div></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.2 4.2L19 7"/></svg></span><div><strong>Brakujące dane zaznaczone wprost</strong><span class="d">Czego nie podasz, tego nie wymyślamy. Miejsca do uzupełnienia są oznaczone w nawiasach kwadratowych.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- GENERATOR -->
+  <section class="sec gen" id="generator">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Generator</span>
+        <h2>Opisz sprawę. <em>Resztą zajmiemy się my.</em></h2>
+        <p>Im więcej konkretów, tym lepsze pismo. Podgląd po prawej odświeża się na bieżąco.</p>
+      </div>
+
+      <div class="gen-grid">
+        <form class="form-card" id="form" novalidate autocomplete="on">
+          <input type="hidden" id="kind" value="">
+          <fieldset>
+            <legend class="legend"><i>1</i> Czego dotyczy sprawa?</legend>
+            <div class="kinds" id="kinds" role="radiogroup" aria-label="Rodzaj sprawy"></div>
+            <p class="err" id="err-kind" hidden>Wybierz rodzaj sprawy.</p>
+          </fieldset>
+
+          <fieldset>
+            <legend class="legend"><i>2</i> Kogo i&nbsp;czego dotyczy?</legend>
+            <div class="field">
+              <label for="company">Firma, do której piszesz</label>
+              <input class="input" id="company" maxlength="120" placeholder="np. PKP Intercity S.A." autocomplete="organization">
+              <p class="err" id="err-company" hidden>Podaj nazwę firmy.</p>
+            </div>
+            <div class="grid2">
+              <div class="field">
+                <label for="date">Data zdarzenia</label>
+                <input class="input" id="date" type="date">
+                <p class="err" id="err-date" hidden>Podaj datę zdarzenia.</p>
+              </div>
+              <div class="field">
+                <label for="amount">Kwota <small>(zł, opcjonalnie)</small></label>
+                <input class="input" id="amount" inputmode="decimal" maxlength="14" placeholder="np. 98,00">
+              </div>
+            </div>
+            <div class="field">
+              <label for="story">Co się stało?</label>
+              <textarea class="input" id="story" maxlength="1500" placeholder="Opisz własnymi słowami: co zamówiłeś lub kupiłeś, co poszło nie tak, kiedy, kto zawinił, czy już się kontaktowałeś z firmą."></textarea>
+              <div class="meta"><span class="err" id="err-story" hidden>Opisz sprawę (min. 20 znaków).</span><span style="margin-left:auto"><span id="storyCount">0</span> / 1500</span></div>
+            </div>
+            <div class="field">
+              <label for="demand">Czego się domagasz? <small>(opcjonalnie)</small></label>
+              <input class="input" id="demand" maxlength="300" placeholder="np. zwrot 98 zł w terminie 14 dni">
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend class="legend"><i>3</i> Twoje dane do pisma</legend>
+            <div class="grid2">
+              <div class="field">
+                <label for="name">Imię i&nbsp;nazwisko</label>
+                <input class="input" id="name" maxlength="80" autocomplete="name" placeholder="Jan Kowalski">
+                <p class="err" id="err-name" hidden>Podaj imię i nazwisko.</p>
+              </div>
+              <div class="field">
+                <label for="city">Miejscowość <small>(opcjonalnie)</small></label>
+                <input class="input" id="city" maxlength="60" autocomplete="address-level2" placeholder="np. Katowice">
+              </div>
+            </div>
+            <div class="field">
+              <label for="address">Adres do korespondencji <small>(opcjonalnie)</small></label>
+              <input class="input" id="address" maxlength="160" autocomplete="street-address" placeholder="ul. Przykładowa 1/2, 40-001 Katowice">
+              <div class="meta"><span>Możesz też uzupełnić go później, bezpośrednio w gotowym piśmie.</span></div>
+            </div>
+          </fieldset>
+
+          <div class="consent" id="consentBox">
+            <input type="checkbox" id="consent">
+            <label for="consent">Akceptuję <a href="/regulamin.html" target="_blank" rel="noopener">Regulamin</a> i&nbsp;<a href="/prywatnosc.html" target="_blank" rel="noopener">Politykę prywatności</a>. Zgadzam się na natychmiastowe rozpoczęcie świadczenia usługi cyfrowej i&nbsp;przyjmuję do wiadomości, że po jej wykonaniu tracę prawo odstąpienia od umowy.</label>
+          </div>
+          <p class="err" id="err-consent" hidden style="margin:-.6rem 0 1rem">Zaznacz zgodę, aby przejść do płatności.</p>
+
+          <button type="submit" class="btn btn-primary btn-lg pay-btn" id="payBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>
+            <span id="payLabel">Odblokuj pełne pismo</span><span class="price">9,99&nbsp;zł</span>
+          </button>
+          <p class="pay-note">Jednorazowa płatność BLIK przez Stripe. Pismo pojawi się od razu po zapłacie.</p>
+        </form>
+
+        <aside class="preview" aria-label="Podgląd pisma">
+          <div class="pv-label"><span class="live">Podgląd na żywo</span><span>Wersja robocza</span></div>
+          <div class="paper" id="paper"></div>
+          <div class="pv-cta">
+            <button type="button" class="btn btn-primary btn-lg pay-btn" id="payBtn2">Odblokuj pełne pismo <span class="price">9,99&nbsp;zł</span></button>
+            <p class="pv-hint">To tylko początek pisma. Resztę — żądanie, podstawę prawną, termin i pouczenie — przygotujemy po płatności.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="sec" id="faq">
+    <div class="wrap">
+      <div class="sec-head rv">
+        <span class="eyebrow">Pytania</span>
+        <h2>Zanim <em>klikniesz</em> „zapłać".</h2>
+      </div>
+      <div class="faq rv">
+        <details><summary>Czy to jest porada prawna?</summary><p>Nie. Oddawaj.pl generuje wzór pisma na podstawie Twoich danych, z użyciem sztucznej inteligencji. Nie jest kancelarią prawną i nie gwarantuje wyniku sprawy. Przy większych kwotach lub spornych sprawach skonsultuj pismo z prawnikiem albo miejskim (powiatowym) rzecznikiem konsumentów.</p></details>
+        <details><summary>Do jakich spraw nadaje się generator?</summary><p>Do typowych sporów konsumenckich: opóźniony lub odwołany pociąg albo lot, reklamacja towaru lub usługi, zagubiona czy uszkodzona przesyłka, niechciana subskrypcja. W sprawach nietypowych wybierz „Inna sprawa" i opisz ją jak najdokładniej.</p></details>
+        <details><summary>Co dokładnie dostaję za 9,99&nbsp;zł?</summary><p>Gotowe pismo po polsku, które możesz poprawić w przeglądarce, a następnie skopiować, wydrukować, zapisać jako PDF, Word lub plik tekstowy. W ramach jednej płatności możesz wygenerować pismo do 3&nbsp;razy.</p></details>
+        <details><summary>Co oznaczają nawiasy kwadratowe w piśmie?</summary><p>To miejsca, w których zabrakło danych. Nie wymyślamy faktów, więc zamiast zgadywać, zaznaczamy: „[UZUPEŁNIJ: …]". Wpisz tam właściwe informacje przed wysłaniem.</p></details>
+        <details><summary>Co dzieje się z moimi danymi?</summary><p>Opis sprawy i dane z formularza są przesyłane do dostawcy modelu AI wyłącznie po to, by przygotować pismo. Nie zakładasz konta. Gotowe pismo zapisuje się w pamięci Twojej przeglądarki, abyś mógł wrócić do niego po odświeżeniu strony. Szczegóły znajdziesz w <a href="/prywatnosc.html">Polityce prywatności</a>.</p></details>
+        <details><summary>Jak wysłać gotowe pismo?</summary><p>Najlepiej listem poleconym za potwierdzeniem odbioru albo e-mailem z potwierdzeniem odczytu — tak, aby mieć dowód, że firma je otrzymała. Zachowaj kopię pisma i dowód nadania.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-bottom:clamp(56px,8vw,100px)">
+    <div class="wrap">
+      <div class="band rv">
+        <h2>Zacznij od <em>dobrze</em> napisanego pisma.</h2>
+        <a class="btn btn-primary btn-lg" href="#generator">Napisz pismo · 9,99&nbsp;zł</a>
+      </div>
+    </div>
   </section>
 </main>
 
-<footer class="border-t border-white/5 py-5 text-center text-xs text-slate-600">
-  &copy; 2026 Oddawaj.pl · <a href="/regulamin.html" class="underline">Regulamin</a> · <a href="/prywatnosc.html" class="underline">Prywatność</a> · kontakt: support@oddawaj.pl
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="brand" style="font-size:1.4rem"><span>Oddawaj<b>.pl</b></span></div>
+      <nav aria-label="Informacje prawne">
+        <a href="/regulamin.html">Regulamin</a>
+        <a href="/prywatnosc.html">Polityka prywatności</a>
+      </nav>
+    </div>
+    <p class="legal">© 2026 Oddawaj.pl. Pisma są generowane automatycznie przez sztuczną inteligencję i&nbsp;stanowią wzór dokumentu, a&nbsp;nie poradę prawną. Sprawdź treść i&nbsp;uzupełnij dane przed wysłaniem.</p>
+  </div>
 </footer>
 
+<noscript><p style="padding:20px;text-align:center">Generator wymaga włączonej obsługi JavaScript.</p></noscript>
+
 <script>
-const STRIPE_LINK = "https://buy.stripe.com/5kQ5kw1Hl1fyeZadnL6c003";
+(function(){
+  'use strict';
+  document.documentElement.classList.add('js');
 
-const $ = id => document.getElementById(id);
-const v = id => $(id).value.trim();
+  /* ===== USTAWIENIA ===== */
+  var STRIPE_LINK = "https://buy.stripe.com/5kQ5kw1Hl1fyeZadnL6c003";
 
-function buildCase() {
-  return [
-    "Rodzaj sprawy: " + v('kind'),
-    "Firma (adresat): " + v('company'),
-    "Kwota: " + (v('amount') ? v('amount') + " zł" : "nie podano"),
-    "Data zdarzenia/zakupu: " + (v('date') || "nie podano"),
-    "Nadawca: " + v('name') + (v('address') ? ", " + v('address') : ""),
-    "Żądanie: " + v('demand'),
-    "Opis sprawy: " + v('story')
-  ].join("\n");
-}
+  var KINDS = {
+    pociag: {chip:'Pociąg', label:'Opóźniony lub odwołany pociąg',
+      story:'Np. pociąg IC relacji Warszawa–Gdańsk, odjazd 12.10 o 14:05, dotarł z opóźnieniem 85 minut. Numer biletu…, zapłaciłem 98 zł.',
+      demand:'Zwrot części ceny biletu z tytułu opóźnienia'},
+    lot:    {chip:'Lot', label:'Opóźniony lub odwołany lot',
+      story:'Np. lot nr…, linia…, trasa…, planowy odlot…, opóźnienie/odwołanie…, jak i kiedy dowiedziałem się o problemie, jakie poniosłem koszty.',
+      demand:'Odszkodowanie za opóźnienie lub odwołanie lotu'},
+    produkt:{chip:'Produkt', label:'Reklamacja zakupionego towaru',
+      story:'Np. kupiłem… w sklepie…, dnia…, za… zł. Wada polega na… Ujawniła się dnia… Kontaktowałem się ze sprzedawcą…',
+      demand:'Wymiana towaru na wolny od wad lub zwrot ceny'},
+    usluga: {chip:'Usługa', label:'Nienależyte wykonanie usługi',
+      story:'Np. zamówiłem usługę…, umowa z dnia…, cena…, usługa została wykonana nieprawidłowo, ponieważ…',
+      demand:'Obniżenie ceny lub zwrot zapłaconej kwoty'},
+    paczka: {chip:'Przesyłka', label:'Opóźniona, zagubiona lub uszkodzona przesyłka',
+      story:'Np. nadawca/sklep…, przewoźnik…, numer przesyłki…, data nadania…, co się stało (brak dostawy, uszkodzenie).',
+      demand:'Odszkodowanie lub zwrot kosztów przesyłki i towaru'},
+    subskrypcja:{chip:'Subskrypcja', label:'Nieuzasadnione pobranie opłat / subskrypcja',
+      story:'Np. firma pobrała ode mnie… zł dnia…, mimo że umowę wypowiedziałem dnia… / nie zamawiałem usługi.',
+      demand:'Zwrot niesłusznie pobranych opłat'},
+    inne:   {chip:'Inna sprawa', label:'Inna sprawa konsumencka',
+      story:'Opisz, co się stało, kiedy, czego dotyczyła umowa i czego oczekujesz od firmy.',
+      demand:''}
+  };
 
-function preview() {
-  const err = $('err');
-  if (!v('kind') || !v('company') || !v('name') || v('story').length < 15) {
-    err.textContent = "Uzupełnij pola oznaczone * (opis – min. kilka zdań).";
-    err.classList.remove('hidden');
-    err.scrollIntoView({behavior: 'smooth'});
-    return;
+  var $ = function(id){ return document.getElementById(id); };
+  var F = {kind:$('kind'), company:$('company'), date:$('date'), amount:$('amount'),
+           story:$('story'), demand:$('demand'), name:$('name'), city:$('city'), address:$('address'), consent:$('consent')};
+  var demandTouched = false, lastDefaultDemand = '';
+
+  /* ===== RODZAJE (chipy) ===== */
+  var kindsEl = $('kinds');
+  Object.keys(KINDS).forEach(function(key){
+    var l = document.createElement('label');
+    var i = document.createElement('input');
+    i.type = 'radio'; i.name = 'kindr'; i.value = key;
+    var s = document.createElement('span'); s.textContent = KINDS[key].chip;
+    l.appendChild(i); l.appendChild(s); kindsEl.appendChild(l);
+    i.addEventListener('change', function(){ setKind(key); });
+  });
+
+  function setKind(key){
+    F.kind.value = key;
+    var k = KINDS[key];
+    F.story.placeholder = k.story;
+    if(!demandTouched || F.demand.value === lastDefaultDemand){
+      F.demand.value = k.demand; lastDefaultDemand = k.demand; demandTouched = false;
+    }
+    hideErr('kind'); renderPreview(); saveDraft();
   }
-  err.classList.add('hidden');
-  const today = new Date().toLocaleDateString('pl-PL');
-  $('out').innerHTML = "";
-  
-  const head = document.createElement('span');
-  head.textContent = v('name') + (v('address') ? "\n" + v('address') : "") + "\n\n" +
-    "Miejscowość: [Do uzupełnienia], " + today + "\n\n" +
-    "Adresat: " + v('company') + "\n\n" +
-    "WEZWANIE / REKLAMACJA – " + v('kind').toUpperCase() + "\n\n";
-    
-  const lock = document.createElement('span');
-  lock.className = "blur-text";
-  lock.textContent = "Na podstawie obowiązujących przepisów prawa konsumenckiego wzywam do zwrotu kwoty w terminie 14 dni od otrzymania niniejszego pisma. W uzasadnieniu wskazuję, że …\n[pełna treść, podstawa prawna, termin i pouczenie – po odblokowaniu płatności]";
-  
-  $('out').append(head, lock);
-  $('resultBox').classList.remove('hidden');
-  $('resultBox').scrollIntoView({behavior: 'smooth'});
-}
 
-function pay() {
-  if (!$('consent').checked) { 
-    alert("Zaznacz wymaganą zgodę na dostarczenie treści cyfrowej przed przejściem do płatności."); 
-    return; 
+  /* ===== PODGLĄD ===== */
+  var paper = $('paper');
+  function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+  function fmtDate(iso){ if(!iso) return ''; var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso); return m ? m[3]+'.'+m[2]+'.'+m[1] : iso; }
+  function today(){ var d = new Date(); return ('0'+d.getDate()).slice(-2)+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+d.getFullYear(); }
+  function val(k){ return (F[k].value || '').trim(); }
+  function line(parent, cls, text, placeholder){
+    var p = el('p', cls);
+    var s = el('span', text ? '' : 'ph', text || placeholder);
+    p.appendChild(s); parent.appendChild(p); return p;
   }
-  try { 
-    const caseData = buildCase();
-    localStorage.setItem('oddawaj_case', caseData); 
-    sessionStorage.setItem('oddawaj_case', caseData);
-    localStorage.setItem('oddawaj_user_problem', caseData);
-  } catch (e) {}
-  window.location.href = STRIPE_LINK;
-}
+
+  function renderPreview(){
+    paper.textContent = '';
+    var kind = KINDS[F.kind.value];
+    var head = el('p', 'r');
+    head.appendChild(el('span', val('city') ? '' : 'ph', val('city') || '[Miejscowość]'));
+    head.appendChild(document.createTextNode(', ' + today()));
+    paper.appendChild(head);
+
+    var from = el('p', 'addr');
+    var n = el('span', val('name') ? '' : 'ph', val('name') || '[Imię i nazwisko]');
+    from.appendChild(n);
+    from.appendChild(document.createTextNode('\n'));
+    from.appendChild(el('span', val('address') ? '' : 'ph', val('address') || '[Adres nadawcy]'));
+    paper.appendChild(from);
+
+    var to = el('p', 'addr'); to.style.marginTop = '1.1rem';
+    to.appendChild(el('span', val('company') ? '' : 'ph', val('company') || '[Firma — adresat pisma]'));
+    paper.appendChild(to);
+
+    var ttl = el('p', 'ttl', kind ? 'Dotyczy: ' + kind.label.toLowerCase() : 'Dotyczy: [rodzaj sprawy]');
+    if(!kind) ttl.className = 'ttl ph';
+    paper.appendChild(ttl);
+
+    paper.appendChild(el('p', '', 'Szanowni Państwo,'));
+
+    var d = fmtDate(val('date')), a = val('amount'), s = val('story');
+    var intro = 'piszę w związku ze zdarzeniem' + (d ? ' z dnia ' + d : '') +
+                (a ? ', którego dotyczy kwota ' + a.replace(/\s*(zł|pln)\.?$/i,'') + ' zł' : '') + '.';
+    paper.appendChild(el('p', '', intro));
+    if(s){
+      var short = s.length > 260 ? s.slice(0, 260).replace(/\s+\S*$/, '') + '…' : s;
+      paper.appendChild(el('p', '', short));
+    } else {
+      line(paper, '', '', 'Tu pojawi się opis Twojej sprawy…');
+    }
+
+    var lk = el('div', 'locked');
+    var sk = el('div', 'sk');
+    [100, 96, 98, 72, 100, 90, 54].forEach(function(w){ var i = el('i'); i.style.width = w + '%'; sk.appendChild(i); });
+    lk.appendChild(sk);
+    var badge = el('div', 'badge');
+    badge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></svg>';
+    badge.appendChild(document.createTextNode('Żądanie, podstawa prawna i termin — po odblokowaniu'));
+    lk.appendChild(badge);
+    paper.appendChild(lk);
+  }
+
+  /* ===== WALIDACJA ===== */
+  function showErr(k, msg){
+    var e = $('err-'+k); if(e){ if(msg) e.textContent = msg; e.hidden = false; }
+    if(F[k] && F[k].classList) F[k].setAttribute('aria-invalid', 'true');
+  }
+  function hideErr(k){
+    var e = $('err-'+k); if(e) e.hidden = true;
+    if(F[k] && F[k].removeAttribute) F[k].removeAttribute('aria-invalid');
+  }
+  function validate(){
+    var bad = [];
+    if(!F.kind.value) bad.push('kind');
+    if(!val('company')) bad.push('company');
+    if(!val('date')) bad.push('date');
+    if(val('story').length < 20) bad.push('story');
+    if(!val('name')) bad.push('name');
+    ['kind','company','date','story','name'].forEach(function(k){ bad.indexOf(k) < 0 ? hideErr(k) : showErr(k); });
+    var cOk = F.consent.checked;
+    $('err-consent').hidden = cOk; $('consentBox').classList.toggle('bad', !cOk);
+    if(bad.length){
+      var first = bad[0] === 'kind' ? kindsEl : F[bad[0]];
+      first.scrollIntoView({block:'center', behavior:'smooth'});
+      if(bad[0] !== 'kind') setTimeout(function(){ first.focus({preventScroll:true}); }, 350);
+      return false;
+    }
+    if(!cOk){ $('consentBox').scrollIntoView({block:'center', behavior:'smooth'}); return false; }
+    return true;
+  }
+
+  /* ===== TREŚĆ ZGŁOSZENIA (wysyłana do /api/generate po płatności) ===== */
+  function buildCase(){
+    var k = KINDS[F.kind.value];
+    var rows = [
+      ['RODZAJ SPRAWY', k ? k.label : ''],
+      ['FIRMA (ADRESAT PISMA)', val('company')],
+      ['DATA ZDARZENIA', fmtDate(val('date'))],
+      ['KWOTA (zł)', val('amount')],
+      ['NADAWCA (IMIĘ I NAZWISKO)', val('name')],
+      ['MIEJSCOWOŚĆ', val('city')],
+      ['ADRES NADAWCY', val('address')],
+      ['OPIS SPRAWY', val('story')],
+      ['CZEGO SIĘ DOMAGAM', val('demand')]
+    ];
+    return rows.filter(function(r){ return r[1]; }).map(function(r){ return r[0] + ': ' + r[1]; }).join('\n');
+  }
+
+  /* ===== PŁATNOŚĆ ===== */
+  var payBtns = [$('payBtn'), $('payBtn2')];
+  function setBusy(b){
+    payBtns.forEach(function(x){ x.disabled = b; });
+    $('payLabel').textContent = b ? 'Przekierowuję do płatności…' : 'Odblokuj pełne pismo';
+  }
+  function pay(){
+    if(!validate()) return;
+    var c = buildCase();
+    try { localStorage.setItem('oddawaj_case', c); } catch(e){}
+    try { sessionStorage.setItem('oddawaj_case', c); } catch(e){}
+    try { localStorage.setItem('oddawaj_user_problem', c); } catch(e){}
+    setBusy(true);
+    window.location.href = STRIPE_LINK;
+  }
+  $('form').addEventListener('submit', function(e){ e.preventDefault(); pay(); });
+  $('payBtn2').addEventListener('click', pay);
+  window.addEventListener('pageshow', function(e){ if(e.persisted) setBusy(false); });
+
+  /* ===== SZKIC (autozapis) ===== */
+  var saveT;
+  function saveDraft(){
+    clearTimeout(saveT);
+    saveT = setTimeout(function(){
+      try {
+        var o = {}; Object.keys(F).forEach(function(k){ if(k !== 'consent') o[k] = F[k].value; });
+        o._dt = demandTouched ? 1 : 0; o._ld = lastDefaultDemand;
+        localStorage.setItem('oddawaj_draft', JSON.stringify(o));
+      } catch(e){}
+    }, 300);
+  }
+  function loadDraft(){
+    try {
+      var o = JSON.parse(localStorage.getItem('oddawaj_draft') || 'null'); if(!o) return;
+      Object.keys(F).forEach(function(k){ if(k !== 'consent' && typeof o[k] === 'string') F[k].value = o[k]; });
+      demandTouched = !!o._dt; lastDefaultDemand = o._ld || '';
+      if(o.kind && KINDS[o.kind]){
+        var r = kindsEl.querySelector('input[value="'+o.kind+'"]'); if(r) r.checked = true;
+        F.story.placeholder = KINDS[o.kind].story;
+      }
+    } catch(e){}
+  }
+
+  /* ===== ZDARZENIA ===== */
+  ['company','date','amount','story','demand','name','city','address'].forEach(function(k){
+    F[k].addEventListener('input', function(){
+      if(k === 'demand') demandTouched = true;
+      if(k === 'story') $('storyCount').textContent = F.story.value.length;
+      if(F[k].getAttribute('aria-invalid')) hideErr(k);
+      renderPreview(); saveDraft();
+    });
+  });
+  F.consent.addEventListener('change', function(){ if(F.consent.checked){ $('err-consent').hidden = true; $('consentBox').classList.remove('bad'); } });
+
+  /* ===== START ===== */
+  loadDraft();
+  $('storyCount').textContent = F.story.value.length;
+  renderPreview();
+
+  /* nagłówek: linia po przewinięciu */
+  var topEl = $('top');
+  function onScroll(){ topEl.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* płynne pojawianie sekcji */
+  var items = document.querySelectorAll('.rv');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); }, {rootMargin:'0px 0px -8% 0px'});
+    items.forEach(function(n){ io.observe(n); });
+  } else { items.forEach(function(n){ n.classList.add('in'); }); }
+})();
 </script>
 </body>
 </html>
