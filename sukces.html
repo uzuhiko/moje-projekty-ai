@@ -136,11 +136,17 @@ textarea.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3p
 
 /* print — tylko pismo */
 #printDoc{display:none}
-@page{size:A4;margin:22mm 20mm}
+/* margines 0 = przeglądarka nie dorzuca daty, tytułu ani adresu strony (w nagłówku i stopce).
+   Marginesy robi tabela: jej pusty nagłówek i stopka powtarzają się na każdej stronie. */
+@page{size:A4;margin:0}
 @media print{
-  html,body{background:#fff!important}
+  html,body{background:#fff!important;margin:0!important;padding:0!important}
   body>*:not(#printDoc){display:none!important}
-  #printDoc{display:block;color:#000;font:12pt/1.5 'Source Serif 4',Georgia,'Times New Roman',serif;white-space:pre-wrap;overflow-wrap:break-word}
+  #printDoc{display:block}
+  #printDoc table{width:100%;border-collapse:collapse}
+  #printDoc td{padding:0}
+  #printDoc .sp{height:22mm}
+  #printText{padding:0 21mm;color:#000;font:12pt/1.5 'Source Serif 4',Georgia,'Times New Roman',serif;white-space:pre-wrap;overflow-wrap:break-word}
 }
 
 /* responsive */
@@ -276,7 +282,13 @@ textarea.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3p
   </div>
 </main>
 
-<div id="printDoc" aria-hidden="true"></div>
+<div id="printDoc" aria-hidden="true">
+  <table>
+    <thead><tr><td><div class="sp"></div></td></tr></thead>
+    <tbody><tr><td><div id="printText"></div></td></tr></tbody>
+    <tfoot><tr><td><div class="sp"></div></td></tr></tfoot>
+  </table>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -451,7 +463,7 @@ textarea.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3p
   }
 
   /* ===== PDF / DRUK ===== */
-  function fillPrint(){ $('printDoc').textContent = getText(); }
+  function fillPrint(){ $('printText').textContent = getText(); }
   window.addEventListener('beforeprint', fillPrint);
   $('bPdf').addEventListener('click', function(){
     fillPrint();
