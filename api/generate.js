@@ -10,7 +10,10 @@ const MAX_PROMPT = 3000;                 // maks. długość opisu sprawy (znaki
 const MAX_GENERATIONS_PER_PAYMENT = 3;   // ile razy można wygenerować pismo za jedną płatność
 const EXPECTED_AMOUNT = 999;             // cena w groszach (9,99 zł). Zmień, jeśli zmienisz cenę w Stripe.
 const EXPECTED_CURRENCY = 'pln';
-const MODEL = 'gpt-4o-mini';
+// Mocniejszy model lepiej liczy i trzyma się zasad (gpt-4o-mini pomylił próg rekompensaty).
+// Koszt jednego pisma to ok. 5–6 gr przy cenie 9,99 zł. Gdyby model był niedostępny na Twoim koncie
+// OpenAI, wróć do 'gpt-4o-mini' albo wpisz inny model z tej samej rodziny (np. 'gpt-4.1').
+const MODEL = 'gpt-4o';
 const MAX_OUTPUT_TOKENS = 2200;
 
 // true  = jeśli Stripe nie pozwoli zapisać licznika generowań, pisma NIE generujemy (bezpieczniej).
@@ -32,7 +35,7 @@ UKŁAD PISMA
 3. Adresat: nazwa firmy z danych. Adres firmy podaj tylko wtedy, gdy użytkownik go podał. W przeciwnym razie: [UZUPEŁNIJ: adres firmy]. Nigdy nie zgaduj adresów.
 4. Tytuł, np. "Reklamacja – opóźnienie pociągu z dnia DD.MM.RRRR", "Wezwanie do zapłaty odszkodowania" albo "Oświadczenie o odstąpieniu od umowy".
 5. Treść: "Szanowni Państwo," – stan faktyczny – podstawa prawna – żądanie z kwotą i terminem – pouczenie o dalszych krokach – "Z poważaniem," i imię i nazwisko.
-6. Na końcu "Załączniki:" z kopiami dokumentów, które użytkownik wymienił (bilet, paragon, zdjęcia, korespondencja). Jeśli nic nie wymienił: Załączniki: [UZUPEŁNIJ: np. kopia biletu lub dowodu zakupu].
+6. Na końcu "Załączniki:" z kopiami dokumentów, które użytkownik wymienił (bilet, paragon, zdjęcia, korespondencja). Jeśli nic nie wymienił: Załączniki: [UZUPEŁNIJ: np. kopia biletu lub dowodu zakupu]. Nigdy nie zostawiaj pustego "Załączniki:" – zawsze wpisz listę albo ten znacznik.
 
 ZASADY TREŚCI
 - Nie zmyślaj faktów. Nie dodawaj godzin, numerów, nazw, miejsc, kwot ani okoliczności, których nie ma w danych. Brakujące dane, które są potrzebne, zapisz jako [UZUPEŁNIJ: co].
@@ -48,7 +51,9 @@ Numerów artykułów podawaj tylko te, które tu wymieniono (art. 471, art. 481,
 
 Pociąg:
 - Rozporządzenie (UE) 2021/782 Parlamentu Europejskiego i Rady w sprawie praw i obowiązków pasażerów podróżujących koleją (stosuje się od 7 czerwca 2023 r.). NIGDY nie powołuj uchylonego rozporządzenia nr 1371/2007.
-- Opóźnienie liczy się w przybyciu do stacji docelowej. Rekompensata za opóźnienie: 25% ceny biletu przy opóźnieniu od 60 do 119 minut, 50% ceny biletu przy opóźnieniu 120 minut lub więcej. Żądaj właściwego procentu, a nie całej ceny biletu. Wylicz kwotę, jeśli znasz cenę biletu i opóźnienie. Jeśli ceny nie podano: [UZUPEŁNIJ: cena biletu].
+- Opóźnienie liczy się w przybyciu do stacji docelowej. Rekompensatę ustalaj DOKŁADNIE według tabeli: opóźnienie poniżej 60 minut – brak rekompensaty; od 60 do 119 minut włącznie – 25% ceny biletu; 120 minut lub więcej – 50% ceny biletu. Najpierw ustal przedział z liczby minut (godziny przelicz na minuty), dopiero potem policz kwotę.
+- Przykłady: opóźnienie 90 minut, bilet 80,00 zł – to przedział 60–119, więc 25%, czyli 20,00 zł (nie 50%). Opóźnienie 150 minut, bilet 80,00 zł – to 50%, czyli 40,00 zł.
+- W piśmie podaj: cenę biletu, opóźnienie w minutach, zastosowany procent i wyliczoną kwotę. Żądaj rekompensaty w tej kwocie, a nie całej ceny biletu. Jeśli ceny nie podano: [UZUPEŁNIJ: cena biletu].
 - Przy opóźnieniu poniżej 60 minut nie żądaj rekompensaty z rozporządzenia. Opisz zdarzenie jako reklamację i zażądaj tego, o co prosi użytkownik.
 - Jeśli użytkownik zrezygnował z podróży z powodu opóźnienia powyżej 60 minut, żądaj zwrotu pełnej ceny biletu zamiast rekompensaty.
 - Organ: Prezes Urzędu Transportu Kolejowego (UTK).
